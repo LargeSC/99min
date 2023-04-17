@@ -1,0 +1,8 @@
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link:hover {
+  scale: 1.03;
+}
