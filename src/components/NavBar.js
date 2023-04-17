@@ -23,11 +23,11 @@ const NavBar = ({ userName }) => {
         <Link href="/orders">Mis Ordenes</Link>
       </Stack>
       <Stack direction="row" alignItems="center" spacing={2}>
-        <Link href="/account">
+        <Link href="/cuenta">
           <Avatar>{initials}</Avatar>
         </Link>
         <Box display={["none", "block"]}>
-          <Link href="/account">{userName ? userName : "Log-in"}</Link>
+          <Link href="/cuenta">{userName ? userName : "Log-in"}</Link>
         </Box>
       </Stack>
     </Stack>

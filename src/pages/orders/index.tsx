@@ -27,12 +27,14 @@ import {
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { OrderInterface } from "@/types/order-interface";
 import axios from "axios";
+import createMockOrder from "@/utils/createMockOrder";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 const env = process.env.NODE_ENV;
 const API_URL = env === "production" ? "/api/" : "http://localhost:3000/api/";
 
 export default function Orders() {
-  const [orders, setOrders] = useState(mockOrders);
+  const [orders, setOrders] = useLocalStorage("orders", mockOrders);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [openAlert, setOpenAlert] = useState<boolean>(false);
@@ -103,9 +105,13 @@ export default function Orders() {
   };
 
   const updateOrders = () => {
-    console.log("Actualizando ordenes");
     setIsLoading(true);
+    setOrders((prevOrders) => {
+      const newOrder = createMockOrder(prevOrders);
+      return [...prevOrders, newOrder];
+    });
     setTimeout(() => {
+      // Simulating a delay
       setIsLoading(false);
     }, 1000);
   };
