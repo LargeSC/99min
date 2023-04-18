@@ -1,6 +1,7 @@
 # Reto 99 min
 
 Equipo de 99 minutos, agradezco mucho su tiempo y esfuerzo en revisar mi reto. Espero que sea de su agrado. Intenté simularlo de forma que sea lo más parecido a la realidad posible, pero por supuesto, no es perfecto. Siéntanse libres de hacerme cualquier comentario o sugerencia.
+El proyecto está desplegado en Vercel, y pueden [verlo aquí](https://99min-largesc.vercel.app/).
 
 ## Instalación
 
