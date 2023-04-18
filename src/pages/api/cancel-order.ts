@@ -23,7 +23,6 @@ export default async function handler(
   if (req.method === "PUT") {
     // Process a PUT request
     // En produccion, el usuario y password estarían en variables de entorno
-    console.log("Cancelando Orden :", shippingId);
     try {
       const response = await axios.put(
         `${URL}${shippingId}/cancelado`,
@@ -36,8 +35,6 @@ export default async function handler(
         }
       );
       data = await response.data;
-      console.log("Pedido cancelado exitosamente: ", shippingId);
-      console.log("Esta es la data de cancel: ", data);
     } catch (e) {
       console.error(e);
     }

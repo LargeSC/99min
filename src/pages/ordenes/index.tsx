@@ -38,8 +38,6 @@ export default function Orders() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [openAlert, setOpenAlert] = useState<boolean>(false);
-  const [isCancelledConfirmation, setIsCancelledConfirmation] =
-    useState<boolean>(false);
   const [selectedOrder, setSelectedOrder] = useState<OrderInterface | null>(
     null
   );
@@ -64,7 +62,6 @@ export default function Orders() {
 
   const requestShipment = async (order: OrderInterface) => {
     setIsRefreshing(true);
-    console.log("Pedido solicitado para la orden: ", order);
     const response = await axios.post(`${API_URL}create-order`, order);
     const shippingId = await response.data?.Order?.ID;
     setOrders((prevOrders) => {
@@ -81,26 +78,19 @@ export default function Orders() {
 
   const cancelShipment = async (order: OrderInterface) => {
     setIsRefreshing(true);
-    setSelectedOrder(order);
-    if (!isCancelledConfirmation) {
-      setOpenAlert(true);
-      setIsRefreshing(false);
-    } else {
-      setIsCancelledConfirmation(false);
-      const response = await axios.put(`${API_URL}cancel-order`, order);
-      if (response.status === 200) {
-        setOrders((prevOrders) => {
-          const newOrders = prevOrders.map((prevOrder) => {
-            if (prevOrder.id === order.id) {
-              return { ...prevOrder, isCancelled: true };
-            }
-            return prevOrder;
-          });
-          return newOrders;
+    const response = await axios.put(`${API_URL}cancel-order`, order);
+    if (response.status === 200) {
+      setOrders((prevOrders) => {
+        const newOrders = prevOrders.map((prevOrder) => {
+          if (prevOrder.id === order.id) {
+            return { ...prevOrder, isCancelled: true };
+          }
+          return prevOrder;
         });
-      }
-      console.log(response);
+        return newOrders;
+      });
     }
+    setSelectedOrder(null);
     setIsRefreshing(false);
   };
 
@@ -113,7 +103,7 @@ export default function Orders() {
     setTimeout(() => {
       // Simulating a delay
       setIsLoading(false);
-    }, 1000);
+    }, 500);
   };
 
   const handleClose = () => {
@@ -121,10 +111,13 @@ export default function Orders() {
   };
 
   const handleConfirm = () => {
-    setIsCancelledConfirmation(true);
-    console.log("Handle Confirm - Cancelando orden: ", selectedOrder);
     cancelShipment(selectedOrder as OrderInterface);
     setOpenAlert(false);
+  };
+
+  const handleDeleteBtn = (order: OrderInterface) => {
+    setSelectedOrder(order);
+    setOpenAlert(true);
   };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -159,7 +152,7 @@ export default function Orders() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {orders.map((order) => (
+                  {orders?.map((order) => (
                     <TableRow
                       key={order.id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -192,7 +185,8 @@ export default function Orders() {
                           >
                             Activa
                             <DeleteOutlineIcon
-                              onClick={() => cancelShipment(order)}
+                              onClick={() => handleDeleteBtn(order)}
+                              sx={{ cursor: "pointer" }}
                             />
                           </Box>
                         </TableCell>
@@ -220,7 +214,7 @@ export default function Orders() {
 
       <Dialog
         open={openAlert}
-        onClose={handleClose}
+        onClose={() => setOpenAlert(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -235,7 +229,7 @@ export default function Orders() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>NO, Me equivoqué</Button>
-          <Button onClick={handleConfirm} autoFocus>
+          <Button onClick={() => handleConfirm()} autoFocus>
             Sí, Cancelar
           </Button>
         </DialogActions>
