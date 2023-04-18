@@ -1,5 +1,4 @@
 import Head from "next/head";
-import styles from "@/styles/Home.module.css";
 import NavBar from "../components/NavBar";
 import { Stack } from "@mui/system";
 import Link from "next/link";

@@ -1,5 +1,4 @@
 import { Avatar } from "@mui/material";
-import styles from "@/styles/NavBar.module.css";
 import { Container, Stack, Box } from "@mui/system";
 import Link from "next/link";
 

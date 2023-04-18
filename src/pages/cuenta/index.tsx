@@ -1,7 +1,5 @@
 import { mockUser } from "@/stubs/user";
-import styles from "@/styles/Home.module.css";
 import { Stack, TextField } from "@mui/material";
-import { Container } from "@mui/system";
 import NavBar from "../../components/NavBar";
 
 export default function AccountInformation() {
