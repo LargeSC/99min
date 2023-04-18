@@ -36,7 +36,6 @@ export default async function handler(
   if (req.method === "POST") {
     // Process a POST request
     // En produccion, el usuario y password estarían en variables de entorno
-    console.log("Processing request with orderMapped :", orderMapped);
     try {
       const response = await axios.post(URL, orderMapped, {
         auth: {
@@ -45,7 +44,6 @@ export default async function handler(
         },
       });
       data = await response.data;
-      console.log("Response from API: ", data);
     } catch (e) {
       console.error(e);
     }

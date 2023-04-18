@@ -22,7 +22,6 @@ export default async function handler(
   if (req.method === "GET") {
     // Process a GET request
     // En produccion, el usuario y password estarían en variables de entorno
-    console.log("Getting Orden :", shippingId);
     try {
       const response = await axios.get(`${URL}${shippingId}`, {
         auth: {
@@ -31,7 +30,6 @@ export default async function handler(
         },
       });
       data = await response.data;
-      console.log("Esta es la data del GET: ", data);
     } catch (e) {
       console.error(e);
     }

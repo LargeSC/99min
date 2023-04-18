@@ -20,7 +20,7 @@ const NavBar = ({ userName }) => {
     >
       <Stack direction="row" alignItems="center" spacing={2}>
         <Link href="/">Inicio</Link>
-        <Link href="/orders">Mis Ordenes</Link>
+        <Link href="/ordenes">Mis Ordenes</Link>
       </Stack>
       <Stack direction="row" alignItems="center" spacing={2}>
         <Link href="/cuenta">
